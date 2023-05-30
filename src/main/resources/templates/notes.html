@@ -2,9 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Notes/List/ContactList and more!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
+<div class = "container">
+    <div class = "row">
+        <h1> List StoreEverything</h1>
+        <div class = "col-lg-8">
+            <a th:href = "@{/notes/loggout}" class = "btn btn-danger float-right mb-3"> Loggout</a>
+
+        </div>
+    </div>
+    <div class = "row">
+        <div class = "col-lg-3">
+            <a th:href = "@{/notes/new}" class = "btn btn-primary btn-sm mb-3"> Add some notes</a>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <form action="/notes/sort" method="get">
+                <select id="sortingOptions" name="sortingOption" onchange="this.form.submit()" class="form-control">
+                    <option value="">Sort by:</option>
+                    <option value="title">Sort by Title</option>
+                    <option value="category">Sort by Category</option>
+                    <option value="date">Sort by Date</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
+    <table class="table table-sm ">
+        <thead class = "table-dark">
+        <tr>
+            <th>
+                Note_Title
+            </th>
+            <th>
+                Link
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Remind_Date
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each = "note: ${notes}">
+            <td th:text = "${note.title}"></td>
+            <td th:text = "${note.link}"></td>
+            <td th:text = "${note.description}"></td>
+            <td th:text = "${note.remind_date}"></td>
+            <td th:text = "${note.date}"></td>
+            <td th:text = "${note.category}"></td>
+            <td>
+                <a th:href = "@{/notes/edit/{id}(id=${note.id})}"
+                   class = "btn btn-primary">Edit</a>
+
+                <a th:href = "@{/notes/addCategory}"
+                   class = "btn btn-primary">Add Category</a>
+
+                <a th:href = "@{/notes/{id}(id=${note.id})}"
+                   class = "btn btn-danger">Delete</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 
 </body>
 </html>

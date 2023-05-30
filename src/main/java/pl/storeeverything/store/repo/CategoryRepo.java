@@ -1,4 +1,8 @@
 package pl.storeeverything.store.repo;
 
-public interface CategoryRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
+import pl.storeeverything.store.model.CategoryDetails;
+
+
+public interface CategoryRepo extends JpaRepository<CategoryDetails,Long> {
 }
