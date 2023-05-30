@@ -17,10 +17,12 @@
     <div class = "row">
         <div class = "col-lg-3">
             <a th:href = "@{/notes/new}" class = "btn btn-primary btn-sm mb-3"> Add some notes</a>
+            <a th:href = "@{/notes/addCategory}" class = "btn btn-primary btn-sm mb-3">Add Category</a>
         </div>
-
-
     </div>
+
+
+
 
     <div class="row">
         <div class="col-lg-3">
@@ -74,9 +76,6 @@
             <td>
                 <a th:href = "@{/notes/edit/{id}(id=${note.id})}"
                    class = "btn btn-primary">Edit</a>
-
-                <a th:href = "@{/notes/addCategory}"
-                   class = "btn btn-primary">Add Category</a>
 
                 <a th:href = "@{/notes/{id}(id=${note.id})}"
                    class = "btn btn-danger">Delete</a>

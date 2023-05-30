@@ -10,10 +10,10 @@
     <div class = "row">
         <div class = "col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
             <h1 class = "text-center">
-                Create New Note or sth
+                Category
             </h1>
             <div class = "class-body">
-                <form th:action="@{/notes/addCategory}" th:object = "${category}" method="POST">
+                <form th:action="@{/notes/addCategory/{id} (id=${note.id})}" th:object = "${category}" method="POST">
                     <div class = "form-group">
                         <label>Add Category</label>
                         <input

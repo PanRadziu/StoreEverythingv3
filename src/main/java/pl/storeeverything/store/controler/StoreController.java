@@ -6,15 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
+import pl.storeeverything.store.service.CategoryService;
 import pl.storeeverything.store.service.NoteService;
 
 @Controller
 public class StoreController {
     private final NoteService noteService;
+    private final CategoryService categoryService;
 
-    public StoreController(NoteService noteService) {
+    public StoreController(NoteService noteService, CategoryService categoryService) {
         this.noteService = noteService;
+        this.categoryService = categoryService;
     }
 
 
@@ -42,6 +46,12 @@ public class StoreController {
     public String editNote(@PathVariable Long id, Model model){
         model.addAttribute("note", noteService.findNoteById(id));
         return "edit_notes";
+    }
+
+    @PostMapping("/notes/addCategory")
+    public String addCategory(@ModelAttribute("category") CategoryDetails categoryDetails, Model model){
+        categoryService.saveCategory(categoryDetails);
+        return "redirect:/addCategory";
     }
 
     @PostMapping("/notes/{id}")
