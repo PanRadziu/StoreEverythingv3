@@ -1,13 +1,14 @@
 package pl.storeeverything.store.controler;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.storeeverything.store.model.NotesDetails;
 import pl.storeeverything.store.service.NoteService;
+
+import java.util.List;
 
 @Controller
 public class StoreController {
@@ -64,8 +65,33 @@ public class StoreController {
         return "redirect:/notes";
     }
 
+    @GetMapping("/notes/sort")
+    public String getSortedNotes(@RequestParam("sortingOption") String sortingOption, Model model) {
+        List<NotesDetails> sortedNotes = null;
 
+        List<NotesDetails> allNotes = noteService.getAllNotes();
+        if (sortingOption != null && !sortingOption.isEmpty()) {
+            if (sortingOption.equals("titleAlph")) {
+                sortedNotes = noteService.sortNotesByTitleAlphabetically(allNotes);
+            } else if (sortingOption.equals("titleNonAlph")) {
+                sortedNotes = noteService.sortNotesByTitleNonAlphabetically(allNotes);
+            } else if (sortingOption.equals("categoryAlph")) {
+                sortedNotes = noteService.sortNotesByCategoryAlphabetically(allNotes);
+            } else if (sortingOption.equals("categoryNonAlph")) {
+                sortedNotes = noteService.sortNotesByCategoryNonAlphabetically(allNotes);
+            } else if (sortingOption.equals("date")) {
+                sortedNotes = noteService.sortNotesByDate(allNotes);
+            } else {
+                sortedNotes = allNotes;
+            }
+        }else {
+            sortedNotes = allNotes;
+        }
 
+        model.addAttribute("notes", sortedNotes);
+
+        return "notes";
+    }
 
 }
 
