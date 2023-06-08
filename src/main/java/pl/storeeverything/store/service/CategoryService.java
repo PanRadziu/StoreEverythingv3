@@ -1,5 +1,6 @@
 package pl.storeeverything.store.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.repo.CategoryRepo;
@@ -7,6 +8,7 @@ import pl.storeeverything.store.repo.CategoryRepo;
 import java.util.List;
 @Service
 public class CategoryService {
+    @Autowired
     private final CategoryRepo categoryRepo;
 
     public CategoryService(CategoryRepo categoryRepo) {

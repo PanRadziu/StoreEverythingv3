@@ -60,32 +60,32 @@
                                 class = "form-control"
                                 placeholder="Enter Remind Date"
                                 value=""
-                        />
+                                th:errorClass="is-invalid"
+                        >
+                        <div th:if="${#fields.hasErrors('remind_date')}"
+                             th:errors="*{remind_date}" class="invalid-feedback"></div>
                     </div>
+<!--                    <div class = "form-group">-->
+<!--                        <form action="#" th:action="@{/notes/category}" method="POST">-->
+<!--                            <label>Wybierz kategorię</label>-->
+<!--                            <select th:field="*{category}">-->
+<!--                                <option th:each="option : ${categories}" th:value="${option.name}" th:text="${option.name}"></option>-->
+<!--                            </select>-->
+<!--                            <button name="submit" type="submit" value="0">Wyszukaj</button>-->
+<!--                        </form>-->
+<!--                    </div >-->
                     <div class = "form-group">
-                        <label>Date</label>
-                        <input
-                                type = "text"
-                                name = "date"
-                                th:field = "*{date}"
-                                class = "form-control"
-                                placeholder="Enter Date"
-                        />
-                    </div >
-                    <!--                        <div class = "form-group">-->
-                    <!--                            <label>Now Createdddd</label>-->
-                    <!--                                <p th:text = "${note.category}"></p>-->
-
-                    <!--                        </div>-->
-                    <div class = "form-group">
-                        <label>Add Category</label>
-                        <input
-                                type = "text"
-                                name = "category"
-                                th:field = "*{category}"
-                                class = "form-control"
-                                placeholder="Enter Category"
-                        />
+                        <select th:field="*{category}">
+                            <option th:each="option : ${categories}" th:value="${option.name}" th:text="${option.name}"></option>
+                        </select>
+<!--                        <label>Add Category</label>-->
+<!--                        <input-->
+<!--                                type = "text"-->
+<!--                                name = "category"-->
+<!--                                th:field = "*{category}"-->
+<!--                                class = "form-control"-->
+<!--                                placeholder="Enter Category"-->
+<!--                        />-->
                     </div>
                     <div class="box-footer">
                         <button type = "submit" class = "btn btn-primary btn-custom">

@@ -1,6 +1,8 @@
 package pl.storeeverything.store.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
 import pl.storeeverything.store.repo.NoteRepo;
 
@@ -9,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 @Service
 public class NoteService {
+    @Autowired
     private final NoteRepo noteRepo;
 
     public NoteService(NoteRepo noteRepo) {
@@ -46,17 +49,17 @@ public class NoteService {
         sortedNotes.sort(Comparator.comparing(NotesDetails::getTitle, Comparator.reverseOrder()));
         return sortedNotes;
     }
-    //alfabetycznie po kategoriach
-    public List<NotesDetails> sortNotesByCategoryAlphabetically(List<NotesDetails> notes){
-        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
-        sortedNotes.sort(Comparator.comparing(NotesDetails::getCategory));
-        return sortedNotes;
-    }
-    public List<NotesDetails> sortNotesByCategoryNonAlphabetically(List<NotesDetails> notes){
-        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
-        sortedNotes.sort(Comparator.comparing(NotesDetails::getCategory, Comparator.reverseOrder()));
-        return sortedNotes;
-    }
+    //alfabetycznie po kategoriach to trzeba poprawic bo kategorie od nowa ogarniam XD
+//    public List<NotesDetails> sortNotesByCategoryAlphabetically(List<NotesDetails> notes){
+//        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
+//        sortedNotes.sort(Comparator.comparing(NotesDetails::getCategory));
+//        return sortedNotes;
+//    }
+//    public List<NotesDetails> sortNotesByCategoryNonAlphabetically(List<NotesDetails> notes){
+//        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
+//        sortedNotes.sort(Comparator.comparing(CategoryDetails::getName, Comparator.reverseOrder()));
+//        return sortedNotes;
+//    }
     public List<NotesDetails> sortNotesByDate(List<NotesDetails> notes){
         List<NotesDetails> sortedNotes = new ArrayList<>(notes);
         sortedNotes.sort(Comparator.comparing(NotesDetails::getDate));

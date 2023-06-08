@@ -1,11 +1,13 @@
 package pl.storeeverything.store.controler;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
+import pl.storeeverything.store.service.CategoryService;
 import pl.storeeverything.store.service.NoteService;
 
 import java.util.List;
@@ -13,9 +15,11 @@ import java.util.List;
 @Controller
 public class StoreController {
     private final NoteService noteService;
+    private final CategoryService categoryService;
 
-    public StoreController(NoteService noteService) {
+    public StoreController(NoteService noteService, CategoryService categoryService) {
         this.noteService = noteService;
+        this.categoryService = categoryService;
     }
 
 
@@ -27,14 +31,26 @@ public class StoreController {
 
     @GetMapping("/notes/new")
     public String createNotes(Model model) {
-        NotesDetails notesDetails = new NotesDetails();
-        model.addAttribute("note", notesDetails);
+        model.addAttribute("note", new NotesDetails());
+        model.addAttribute("categories",categoryService.getAllCategories());
         return "create_notes";
     }
 
+    @GetMapping("/notes/category")
+    public String getNoteFromCategory (Model model){
+        model.addAttribute("category_new", new CategoryDetails());
+        return "category";
+    }
+    @PostMapping("/notes/category")
+    public String addCategory(@Valid @ModelAttribute("category_new") CategoryDetails categoryDetails, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "category";
+        }
+        categoryService.saveCategory(categoryDetails);
+        return "redirect:/notes";
+    }
     @PostMapping("/notes")
-    public String saveNotes(@ModelAttribute("note") NotesDetails notesDetails){
-
+    public String saveNotes(@Valid @ModelAttribute("note") NotesDetails notesDetails, BindingResult result, Model model){
         noteService.saveNotes(notesDetails);
         return "redirect:/notes";
     }
@@ -75,10 +91,10 @@ public class StoreController {
                 sortedNotes = noteService.sortNotesByTitleAlphabetically(allNotes);
             } else if (sortingOption.equals("titleNonAlph")) {
                 sortedNotes = noteService.sortNotesByTitleNonAlphabetically(allNotes);
-            } else if (sortingOption.equals("categoryAlph")) {
-                sortedNotes = noteService.sortNotesByCategoryAlphabetically(allNotes);
-            } else if (sortingOption.equals("categoryNonAlph")) {
-                sortedNotes = noteService.sortNotesByCategoryNonAlphabetically(allNotes);
+//            } else if (sortingOption.equals("categoryAlph")) {
+//                sortedNotes = noteService.sortNotesByCategoryAlphabetically(allNotes);
+//            } else if (sortingOption.equals("categoryNonAlph")) {
+//                sortedNotes = noteService.sortNotesByCategoryNonAlphabetically(allNotes);
             } else if (sortingOption.equals("date")) {
                 sortedNotes = noteService.sortNotesByDate(allNotes);
             } else {

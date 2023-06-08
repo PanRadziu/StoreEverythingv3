@@ -1,9 +1,10 @@
 package pl.storeeverything.store.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
-
 @Entity
 @Table(name = "notes")
 public class NotesDetails implements Serializable {
@@ -11,20 +12,25 @@ public class NotesDetails implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false,updatable = false)
     private Long id;
-    @Column(name = "title")
+    @NotBlank(message = "Title is required")
+    @Size(min =3,max = 30, message = "Title cannot exceed 50 characters")
     private String title;
-    @Column(name = "description")
+    @Size(min =3,max = 500, message = "Title cannot exceed 500 characters")
+    @Column(name = "description", nullable = false, length = 500)
     private String description;
     @Column(name = "link")
     private String link;
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
+    @NotNull
     private String date;
-    @Column(name = "remind_date")
+    @Column(name = "remind_date",nullable = false)
     private String remind_date;
-    @Column(name = "category")
-    private String category;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "category_name")
 
-    public NotesDetails(Long id, String title, String description, String link, String date, String remind_date, String category) {
+    private CategoryDetails category;
+
+    public NotesDetails(Long id, String title, String description, String link, String date, String remind_date, CategoryDetails category) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -85,11 +91,11 @@ public class NotesDetails implements Serializable {
         this.remind_date = remind_date;
     }
 
-    public String getCategory() {
+    public CategoryDetails getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(CategoryDetails category) {
         this.category = category;
     }
 
