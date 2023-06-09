@@ -82,13 +82,17 @@
         </thead>
 
         <tbody>
+
+
         <tr th:each = "note: ${notes}">
             <td th:text = "${note.title}"></td>
             <td th:text = "${note.link}"></td>
             <td th:text = "${note.description}"></td>
             <td th:text = "${note.remind_date}"></td>
             <td th:text = "${note.date}"></td>
-            <td th:text = "${note.category}"></td>
+            <td th:text = "${note.category.name}"></td>
+
+
             <td>
                 <a th:href = "@{/notes/edit/{id}(id=${note.id})}"
                    class = "btn btn-primary btn-custom">Edit</a>

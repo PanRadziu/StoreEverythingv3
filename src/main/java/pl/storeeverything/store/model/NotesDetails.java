@@ -27,22 +27,21 @@ public class NotesDetails implements Serializable {
 //    @Column(name = "date", nullable = false)
 //    @NotNull
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
+    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date date;
     @Column(name = "remind_date",nullable = false)
     private String remind_date;
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "category_name")
-
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private CategoryDetails category;
 
-    public NotesDetails(Long id, String title, String description, String link, Date date, String remind_date, CategoryDetails category) {
+    public NotesDetails(Long id, String title, String description, Date date,String link, String remind_date, CategoryDetails category) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.link = link;
-        date = Calendar.getInstance().getTime();
+        this.date = date;
         this.remind_date = remind_date;
         this.category = category;
     }
@@ -82,12 +81,13 @@ public class NotesDetails implements Serializable {
         this.link = link;
     }
 
-    public String getDate() {
-        return dateFormat.format(date);
+    public Date getDate() {
+        return date;
     }
 
-    public void setDate(String date) {
-        dateFormat.format(date);
+    public void setDate(Date date) {
+        this.date=date;
+//        dateFormat.format(date);
     }
 
     public String getRemind_date() {

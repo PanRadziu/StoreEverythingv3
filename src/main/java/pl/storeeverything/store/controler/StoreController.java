@@ -10,6 +10,7 @@ import pl.storeeverything.store.model.NotesDetails;
 import pl.storeeverything.store.service.CategoryService;
 import pl.storeeverything.store.service.NoteService;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -51,6 +52,10 @@ public class StoreController {
     }
     @PostMapping("/notes")
     public String saveNotes(@Valid @ModelAttribute("note") NotesDetails notesDetails, BindingResult result, Model model){
+        if(notesDetails.getDate()==null) {
+            Date date = new Date();
+            notesDetails.setDate(date);
+        }
         noteService.saveNotes(notesDetails);
         return "redirect:/notes";
     }
@@ -68,7 +73,7 @@ public class StoreController {
         existingNote.setTitle(notesDetails.getTitle());
         existingNote.setDescription(notesDetails.getDescription());
         existingNote.setLink(notesDetails.getLink());
-        existingNote.setDate(notesDetails.getDate());
+//        existingNote.setDate(notesDetails.getDate());
         existingNote.setRemind_date(notesDetails.getRemind_date());
         existingNote.setCategory(notesDetails.getCategory());
         noteService.editNotes(existingNote);

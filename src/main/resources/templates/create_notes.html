@@ -75,9 +75,9 @@
 <!--                        </form>-->
 <!--                    </div >-->
                     <div class = "form-group">
-                        <label>Category</label><br>
+                        <label th:for="category">Category</label><br>
                         <select th:field="*{category}">
-                            <option th:each="option : ${categories}" th:value="${option.name}" th:text="${option.name}"></option>
+                            <option th:each="option : ${categories}" th:value="${option.id}" th:text="${option.name}"></option>
                         </select>
 <!--                        <label>Add Category</label>-->
 <!--                        <input-->

@@ -14,6 +14,7 @@ public class CategoryDetails {
     private Long id;
     @NotNull
     @Pattern(regexp = "[A-z]{3,20}",message = "Category should be between 3 and 20 letters long")
+    @Column(nullable = false,updatable = false)
     private String name;
 
 
