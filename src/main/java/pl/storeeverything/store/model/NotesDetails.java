@@ -2,13 +2,14 @@ package pl.storeeverything.store.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+@Data
 @Entity
 @Table(name = "notes")
 public class NotesDetails implements Serializable {
@@ -16,17 +17,20 @@ public class NotesDetails implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false,updatable = false)
     private Long id;
-    @NotBlank(message = "Title is required")
-    @Size(min =3,max = 30, message = "Title cannot exceed 50 characters")
+
+    @NotNull(message = "is required")
+    @Size(min = 3, max = 20, message = "tilte has to 3-20 letters long")
+
     private String title;
-    @Size(min =3,max = 500, message = "Title cannot exceed 500 characters")
-    @Column(name = "description", nullable = false, length = 500)
+    @Column(name = "description", nullable = true)
+    @NotNull(message = "is required")
+    @Size(min=5, max=500,message = "description has to 5-500 letters long")
+//    @Size(min = 5, max = 500, message = "description has to 5-500 letters long")
+
     private String description;
+
     @Column(name = "link")
     private String link;
-//    @Column(name = "date", nullable = false)
-//    @NotNull
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date date;

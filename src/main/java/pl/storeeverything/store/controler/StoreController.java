@@ -52,6 +52,10 @@ public class StoreController {
     }
     @PostMapping("/notes")
     public String saveNotes(@Valid @ModelAttribute("note") NotesDetails notesDetails, BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("categories",categoryService.getAllCategories());
+            return "create_notes";
+        }
         if(notesDetails.getDate()==null) {
             Date date = new Date();
             notesDetails.setDate(date);

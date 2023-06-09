@@ -3,8 +3,9 @@ package pl.storeeverything.store.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
-
+@Data
 @Entity
 @Table(name = "category")
 public class CategoryDetails {
