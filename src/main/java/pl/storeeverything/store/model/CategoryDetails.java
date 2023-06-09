@@ -13,7 +13,7 @@ public class CategoryDetails {
     @Column(nullable = false,updatable = false)
     private Long id;
     @NotNull
-    @Pattern(regexp = "[a-z]{3,20}",message = "Category cannot exceed 20 characters")
+    @Pattern(regexp = "[A-z]{3,20}",message = "Category should be between 3 and 20 letters long")
     private String name;
 
 

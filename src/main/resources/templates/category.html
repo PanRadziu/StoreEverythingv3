@@ -58,7 +58,8 @@
                                 th:field = "*{name}"
                                 class = "form-control"
                                 placeholder="Enter name"
-                        />
+
+                        /><span class="error-message" th:errors="*{name}">Błąd nazwy</span>
                         <button type = "submit" class = "btn btn-primary btn-custom">
                             Submit
                         </button>

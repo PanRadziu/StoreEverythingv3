@@ -2,9 +2,13 @@ package pl.storeeverything.store.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 @Entity
 @Table(name = "notes")
 public class NotesDetails implements Serializable {
@@ -20,9 +24,12 @@ public class NotesDetails implements Serializable {
     private String description;
     @Column(name = "link")
     private String link;
-    @Column(name = "date", nullable = false)
-    @NotNull
-    private String date;
+//    @Column(name = "date", nullable = false)
+//    @NotNull
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    Date date;
     @Column(name = "remind_date",nullable = false)
     private String remind_date;
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -30,12 +37,12 @@ public class NotesDetails implements Serializable {
 
     private CategoryDetails category;
 
-    public NotesDetails(Long id, String title, String description, String link, String date, String remind_date, CategoryDetails category) {
+    public NotesDetails(Long id, String title, String description, String link, Date date, String remind_date, CategoryDetails category) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.link = link;
-        this.date = date;
+        date = Calendar.getInstance().getTime();
         this.remind_date = remind_date;
         this.category = category;
     }
@@ -76,11 +83,11 @@ public class NotesDetails implements Serializable {
     }
 
     public String getDate() {
-        return date;
+        return dateFormat.format(date);
     }
 
     public void setDate(String date) {
-        this.date = date;
+        dateFormat.format(date);
     }
 
     public String getRemind_date() {
@@ -111,4 +118,6 @@ public class NotesDetails implements Serializable {
                 ", category='" + category + '\'' +
                 '}';
     }
+
+
 }
