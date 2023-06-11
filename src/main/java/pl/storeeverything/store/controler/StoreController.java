@@ -1,6 +1,7 @@
 package pl.storeeverything.store.controler;
 
 import jakarta.validation.Valid;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import pl.storeeverything.store.service.NoteService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class StoreController {
@@ -44,15 +46,19 @@ public class StoreController {
     }
     @PostMapping("/notes/category")
     public String addCategory(@Valid @ModelAttribute("category_new") CategoryDetails categoryDetails, BindingResult result, Model model){
-        if(result.hasErrors()){
+        Optional<CategoryDetails> categoryExists = categoryService.findCategoryName(categoryDetails.getName());
+        if(result.hasErrors() || categoryExists.isPresent()){
             return "category";
         }
-        categoryService.saveCategory(categoryDetails);
-        return "redirect:/notes";
+        else{
+            categoryService.saveCategory(categoryDetails);
+            return "redirect:/notes";
+        }
     }
     @PostMapping("/notes")
     public String saveNotes(@Valid @ModelAttribute("note") NotesDetails notesDetails, BindingResult result, Model model){
         if(result.hasErrors()){
+            System.out.println("w ifie notatkowym");
             model.addAttribute("categories",categoryService.getAllCategories());
             return "create_notes";
         }
@@ -65,19 +71,23 @@ public class StoreController {
     }
 
     @GetMapping("/notes/edit/{id}")
-    public String editNote(@PathVariable Long id, Model model){
+    public String editNote(@PathVariable Long id ,Model model){
         model.addAttribute("note", noteService.findNoteById(id));
+        model.addAttribute("categories",categoryService.getAllCategories());
         return "edit_notes";
     }
 
     @PostMapping("/notes/{id}")
-    public String UpdateNote(@PathVariable Long id ,@ModelAttribute("note") NotesDetails notesDetails, Model model){
-        NotesDetails existingNote =noteService.findNoteById(id);
+    public String UpdateNote( @PathVariable Long id ,@Valid @ModelAttribute("note") NotesDetails notesDetails,BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("categories",categoryService.getAllCategories());
+            return "edit_notes";
+        }
+        NotesDetails existingNote = noteService.findNoteById(id);
         existingNote.setId(notesDetails.getId());
         existingNote.setTitle(notesDetails.getTitle());
         existingNote.setDescription(notesDetails.getDescription());
         existingNote.setLink(notesDetails.getLink());
-//        existingNote.setDate(notesDetails.getDate());
         existingNote.setRemind_date(notesDetails.getRemind_date());
         existingNote.setCategory(notesDetails.getCategory());
         noteService.editNotes(existingNote);

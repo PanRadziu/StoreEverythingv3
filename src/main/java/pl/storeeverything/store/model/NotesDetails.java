@@ -19,8 +19,7 @@ public class NotesDetails implements Serializable {
     private Long id;
 
     @NotNull(message = "is required")
-    @Size(min = 3, max = 20, message = "tilte has to 3-20 letters long")
-
+    @Size(min = 3, max = 20, message = "title has to 3-20 letters long")
     private String title;
     @Column(name = "description", nullable = true)
     @NotNull(message = "is required")
