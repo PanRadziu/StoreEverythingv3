@@ -6,10 +6,10 @@ import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
 import pl.storeeverything.store.repo.NoteRepo;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
 
 @Service
 public class NoteService {
@@ -51,21 +51,52 @@ public class NoteService {
         sortedNotes.sort(Comparator.comparing(NotesDetails::getTitle, Comparator.reverseOrder()));
         return sortedNotes;
     }
-    //alfabetycznie po kategoriach to trzeba poprawic bo kategorie od nowa ogarniam XD
 //    public List<NotesDetails> sortNotesByCategoryAlphabetically(List<NotesDetails> notes){
 //        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
-//        sortedNotes.sort(Comparator.comparing(NotesDetails::getCategory));
+//        sortedNotes.sort(Comparator.comparing(NotesDetails::getTitle, Comparator.reverseOrder()));
 //        return sortedNotes;
 //    }
-//    public List<NotesDetails> sortNotesByCategoryNonAlphabetically(List<NotesDetails> notes){
-//        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
-//        sortedNotes.sort(Comparator.comparing(CategoryDetails::getName, Comparator.reverseOrder()));
-//        return sortedNotes;
-//    }
-    public List<NotesDetails> sortNotesByDate(List<NotesDetails> notes){
+
+    public List<NotesDetails> sortNotesByCategoryAlphabetically(List<NotesDetails> notes) {
         List<NotesDetails> sortedNotes = new ArrayList<>(notes);
-        sortedNotes.sort(Comparator.comparing(NotesDetails::getDate));
+        sortedNotes.sort(Comparator.comparing(n -> n.getCategory().getName(), String.CASE_INSENSITIVE_ORDER));
         return sortedNotes;
     }
+    public List<NotesDetails> sortNotesByCategoryNonAlphabetically(List<NotesDetails> notes) {
+        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
+        sortedNotes.sort(Comparator.comparing(n -> n.getCategory().getName(), Comparator.reverseOrder()));
+        return sortedNotes;
+    }
+
+    public List<NotesDetails> showNotesOfMostPopularCategory(List<NotesDetails> notes) {
+        // Count the occurrences of each category
+        Map<CategoryDetails, Integer> categoryCount = new HashMap<>();
+        for (NotesDetails note : notes) {
+            CategoryDetails category = note.getCategory();
+            categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
+        }
+
+        // Find the most popular category
+        CategoryDetails mostPopularCategory = Collections.max(
+                categoryCount.entrySet(),
+                Map.Entry.comparingByValue()
+        ).getKey();
+
+        // Filter the notes to include only those belonging to the most popular category
+        List<NotesDetails> filteredNotes = new ArrayList<>();
+        for (NotesDetails note : notes) {
+            if (note.getCategory().equals(mostPopularCategory)) {
+                filteredNotes.add(note);
+            }
+        }
+
+        return filteredNotes;
+    }
+
+    public List<NotesDetails> getNotesByDateRange(Date startDate, Date endDate) {
+        return noteRepo.findByDateBetween(startDate, endDate);
+    }
+
+
 
 }

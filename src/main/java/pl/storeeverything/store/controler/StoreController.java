@@ -2,6 +2,7 @@ package pl.storeeverything.store.controler;
 
 import jakarta.validation.Valid;
 import org.aspectj.weaver.ast.Not;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import pl.storeeverything.store.model.NotesDetails;
 import pl.storeeverything.store.service.CategoryService;
 import pl.storeeverything.store.service.NoteService;
 
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -110,12 +112,12 @@ public class StoreController {
                 sortedNotes = noteService.sortNotesByTitleAlphabetically(allNotes);
             } else if (sortingOption.equals("titleNonAlph")) {
                 sortedNotes = noteService.sortNotesByTitleNonAlphabetically(allNotes);
-//            } else if (sortingOption.equals("categoryAlph")) {
-//                sortedNotes = noteService.sortNotesByCategoryAlphabetically(allNotes);
-//            } else if (sortingOption.equals("categoryNonAlph")) {
-//                sortedNotes = noteService.sortNotesByCategoryNonAlphabetically(allNotes);
-            } else if (sortingOption.equals("date")) {
-                sortedNotes = noteService.sortNotesByDate(allNotes);
+            } else if (sortingOption.equals("categoryAlph")) {
+                sortedNotes = noteService.sortNotesByCategoryAlphabetically(allNotes);
+            } else if (sortingOption.equals("categoryNonAlph")) {
+                sortedNotes = noteService.sortNotesByCategoryNonAlphabetically(allNotes);
+            } else if (sortingOption.equals("countCategory")) {
+                sortedNotes = noteService.showNotesOfMostPopularCategory(allNotes);
             } else {
                 sortedNotes = allNotes;
             }
@@ -125,6 +127,16 @@ public class StoreController {
 
         model.addAttribute("notes", sortedNotes);
 
+        return "notes";
+    }
+
+    @PostMapping("/notes/filter")
+    public String filterNotes(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                              @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+                              Model model) {
+        List<NotesDetails> filteredNotes = noteService.getNotesByDateRange(startDate, endDate);
+
+        model.addAttribute("notes", filteredNotes);
         return "notes";
     }
 
