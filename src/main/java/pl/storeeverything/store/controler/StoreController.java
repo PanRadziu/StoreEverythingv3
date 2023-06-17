@@ -80,7 +80,7 @@ public class StoreController {
     }
 
     @PostMapping("/notes/{id}")
-    public String UpdateNote( @PathVariable Long id ,@Valid @ModelAttribute("note") NotesDetails notesDetails,BindingResult result, Model model){
+    public String UpdateNote(@PathVariable Long id ,@Valid @ModelAttribute("note") NotesDetails notesDetails,BindingResult result, Model model){
         if(result.hasErrors()){
             model.addAttribute("categories",categoryService.getAllCategories());
             return "edit_notes";

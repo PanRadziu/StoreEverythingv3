@@ -10,8 +10,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-@Data
+
 @Entity
+@Data
 @Table(name = "notes")
 public class NotesDetails implements Serializable {
     @Id

@@ -25,7 +25,8 @@
         <div class = "row">
             <h1> List StoreEverything</h1>
             <div class = "col-lg-8">
-                <a th:href = "@{/notes/loggout}" class = "btn btn-danger float-right mb-3"> Loggout</a>
+                <form th:action="@{/logout}" method ="post"  class = "btn btn-danger float-right mb-3" ><input type="submit" value ="Sign Out" /></form>
+<!--                <a th:href = "@{/logout}" class = "btn btn-danger float-right mb-3" type="button" method ="post"> Logout</a>-->
             </div>
         </div>
     </header>

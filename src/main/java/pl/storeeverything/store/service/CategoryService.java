@@ -6,6 +6,8 @@ import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
 import pl.storeeverything.store.repo.CategoryRepo;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,4 +33,14 @@ public class CategoryService {
     public Optional<CategoryDetails> findCategoryName(String name){
         return categoryRepo.findByName(name);
     }
+//    public List<CategoryDetails> sortNotesByCategoryAlphabetically(List<CategoryDetails> category){
+//        List<CategoryDetails> sortedNotes = new ArrayList<>(category);
+//        sortedNotes.sort(Comparator.comparing(CategoryDetails::getName));
+//        return sortedNotes;
+//    }
+//    public List<CategoryDetails> sortNotesByCategoryNonAlphabetically(List<CategoryDetails> category){
+//        List<CategoryDetails> sortedNotes = new ArrayList<>(category);
+//        sortedNotes.sort(Comparator.comparing(CategoryDetails::getName, Comparator.reverseOrder()));
+//        return sortedNotes;
+//    }
 }
