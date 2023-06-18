@@ -1,43 +1,53 @@
 package pl.storeeverything.store.controler;
 
 import jakarta.validation.Valid;
-import org.aspectj.weaver.ast.Not;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
+import pl.storeeverything.store.model.UserDetails;
 import pl.storeeverything.store.service.CategoryService;
 import pl.storeeverything.store.service.NoteService;
+import pl.storeeverything.store.service.UserService;
 
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 public class StoreController {
     private final NoteService noteService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
 
 
-    public StoreController(NoteService noteService, CategoryService categoryService) {
+
+    public StoreController(NoteService noteService, CategoryService categoryService, UserService userService) {
         this.noteService = noteService;
         this.categoryService = categoryService;
+        this.userService = userService;
+
     }
 
 
     @GetMapping("/notes")
-    public String listNotes(Model model){
-        model.addAttribute("notes", noteService.getAllNotes());
+    public String listNotes(@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails loggedUser, Model model){
+        String isloged = loggedUser.getUsername();
+        UserDetails userDet = userService.findByUsername(isloged);
+        Long id = userDet.getId();
+        List<NotesDetails> notesDetailsList = noteService.findAllByUserIDD(id);
+        model.addAttribute("notes", notesDetailsList);
         return "notes";
     }
+
+
 
     @GetMapping("/notes/new")
     public String createNotes(Model model) {
@@ -63,7 +73,9 @@ public class StoreController {
         }
     }
     @PostMapping("/notes")
-    public String saveNotes(@Valid @ModelAttribute("note") NotesDetails notesDetails, BindingResult result, Model model){
+    public String saveNotes(@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails loggedUser, @Valid @ModelAttribute("note") NotesDetails notesDetails, BindingResult result, Model model){
+        String isloged = loggedUser.getUsername();
+        UserDetails userDet = userService.findByUsername(isloged);
         if(result.hasErrors()){
             System.out.println("w ifie notatkowym");
             model.addAttribute("categories",categoryService.getAllCategories());
@@ -73,6 +85,7 @@ public class StoreController {
             Date date = new Date();
             notesDetails.setDate(date);
         }
+        notesDetails.setUser(userDet);
         noteService.saveNotes(notesDetails);
         return "redirect:/notes";
     }

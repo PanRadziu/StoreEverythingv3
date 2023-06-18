@@ -22,8 +22,8 @@
   <h1>Share Note</h1>
 
   <h2>Note Details:</h2>
-  <p>Note ID: <span th:text="${note.id}"></span></p>
   <p>Note Title: <span th:text="${note.title}"></span></p>
+  <p>Note Creator: <span th:text="${note.user.getUsername}"></span></p>
 
   <h2>Share Link:</h2>
   <p>Copy and share the following link with others:</p>

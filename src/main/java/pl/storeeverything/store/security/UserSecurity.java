@@ -80,6 +80,7 @@ public class UserSecurity{
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/styles/**").permitAll()
                         .requestMatchers("/register").permitAll() // all users
+                        .requestMatchers("/notes/display/{id}").permitAll()
                         .requestMatchers("/notes/category/*").hasRole("ADMIN") // admin
                         .anyRequest().authenticated()
                 )

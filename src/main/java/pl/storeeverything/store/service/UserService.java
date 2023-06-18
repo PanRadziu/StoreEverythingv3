@@ -22,9 +22,16 @@ public class UserService{
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
     }
+    public UserDetails findByUsername(String username){
+        return userRepo.findByUsername(username);
+    }
 
     public UserDetails saveUser(UserDetails userDetails){
         return userRepo.save(userDetails);
+    }
+
+    public UserRepo getUserRepo() {
+        return userRepo;
     }
 
 //    public void addUser(UserDetails userDetails){
