@@ -1,78 +1,63 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Notes/List/ContactList and more!</title>-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class = "container">-->
-<!--    <div class = "row">-->
-<!--        <div class = "col-lg-6 col-md-6 col-sm-6 container justify-content-center card">-->
-<!--            <h1 class = "text-center">-->
-<!--                Category-->
-<!--            </h1>-->
-<!--            <div class = "class-body">-->
-<!--                <form th:action="@{/notes/addCategory}" th:object = "${category}" method="POST">-->
-<!--                    <div class = "form-group">-->
-<!--                        <label>Add Category</label>-->
-<!--                        <input-->
-<!--                                type = "text"-->
-<!--                                name = "category"-->
-<!--                                th:field = "*{name}"-->
-<!--                                class = "form-control"-->
-<!--                                placeholder="Enter Category"-->
-<!--                        />-->
-<!--                    </div>-->
-<!--                    <div class="box-footer">-->
-<!--                        <button type = "submit" class = "btn btn-primary">-->
-<!--                            Submit-->
-<!--                        </button>-->
-<!--                    </div>-->
-
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Category addddd!</title>
+    <title>Category Add!</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#categoryForm").submit(function(e) {
+                console.log("JavaScript code is executed.");
+                e.preventDefault(); // Prevent form submission
+                var categoryName = $("#categoryName").val();
+                $.ajax({
+                    type: "GET",
+                    url: "/api/noun-checker/" + categoryName,
+                    success: function() {
+                        // Word is a noun, submit the form
+                        $("#categoryForm").off("submit").submit();
+                    },
+                    error: function(xhr) {
+                        // Word is not a noun, display error message
+                        $(".error-message").text(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-<div class = "container">
-    <div class = "row">
-        <div class = "col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <h1 class = "text-center">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class="text-center">
                 Add Category
             </h1>
-            <div class = "class-body">
-                <div class = "form-group">
-                    <form action="#" th:action="@{/notes/category}" th:object="${category_new}" method="POST">
+            <div class="class-body">
+                <div class="form-group">
+                    <form id="categoryForm" th:action="@{/notes/category}" th:object="${category_new}" method="POST">
                         <label>Wybierz kategorię</label>
                         <input
-                                type = "text"
-                                name = "name"
-                                th:field = "*{name}"
-                                class = "form-control"
+                                type="text"
+                                id="categoryName"
+                                name="name"
+                                th:field="*{name}"
+                                class="form-control"
                                 placeholder="Enter name of category"
-
                         />
                         <span class="error-message" th:errors="*{name}">Błąd nazwy</span>
-                        <button type = "submit" class = "btn btn-primary btn-custom">
+                        <button type="submit" class="btn btn-primary btn-custom">
                             Submit
                         </button>
                     </form>
-                </div >
-                </form>
+                </div>
             </div>
         </div>
-
-
     </div>
-
 </div>
 </body>
 </html>
+
+
+
