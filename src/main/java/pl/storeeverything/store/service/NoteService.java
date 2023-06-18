@@ -27,6 +27,9 @@ public class NoteService {
     public NotesDetails saveNotes(NotesDetails notesDetails){
         return noteRepo.save(notesDetails);
     }
+    public List<NotesDetails> findAllByUserIDD(Long id){
+        return noteRepo.findALlByUserId(id);
+    }
 
     public NotesDetails findNoteById(Long id){
         return noteRepo.findById(id).get();
@@ -97,6 +100,7 @@ public class NoteService {
         return noteRepo.findByDateBetween(startDate, endDate);
     }
 
-
-
+    public NoteRepo getNoteRepo() {
+        return noteRepo;
+    }
 }

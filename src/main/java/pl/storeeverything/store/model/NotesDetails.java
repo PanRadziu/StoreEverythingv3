@@ -40,6 +40,11 @@ public class NotesDetails implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryDetails category;
+//    @Column(name = "user", nullable = true, insertable=false, updatable=false)
+//    private UserDetails user;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
+    private UserDetails user;
 
     public NotesDetails(Long id, String title, String description, Date date,String link, String remind_date, CategoryDetails category) {
         this.id = id;
