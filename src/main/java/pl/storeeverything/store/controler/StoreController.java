@@ -2,11 +2,13 @@ package pl.storeeverything.store.controler;
 
 import jakarta.validation.Valid;
 import org.aspectj.weaver.ast.Not;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
 import pl.storeeverything.store.service.CategoryService;
@@ -16,11 +18,14 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class StoreController {
     private final NoteService noteService;
     private final CategoryService categoryService;
+
+
 
     public StoreController(NoteService noteService, CategoryService categoryService) {
         this.noteService = noteService;
@@ -77,6 +82,23 @@ public class StoreController {
         model.addAttribute("note", noteService.findNoteById(id));
         model.addAttribute("categories",categoryService.getAllCategories());
         return "edit_notes";
+    }
+
+    @GetMapping("/notes/share/{id}")
+    public String shareNote(@PathVariable Long id ,Model model){
+        model.addAttribute("note", noteService.findNoteById(id));
+        String editUrl = "/notes/edit/" + id;
+        model.addAttribute("editUrl", editUrl);
+        return "share_notes";
+    }
+
+    @GetMapping("/notes/display/{id}")
+    public String displayNote(@PathVariable Long id ,Model model){
+        model.addAttribute("note", noteService.findNoteById(id));
+        model.addAttribute("categories",categoryService.getAllCategories());
+        String editUrl = "/notes/edit/" + id;
+        model.addAttribute("editUrl", editUrl);
+        return "display_notes";
     }
 
     @PostMapping("/notes/{id}")

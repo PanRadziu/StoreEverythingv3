@@ -15,6 +15,11 @@
             background-color: #124d21;
             border: none;
         }
+        .transparent-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -25,8 +30,9 @@
         <div class = "row">
             <h1> List StoreEverything</h1>
             <div class = "col-lg-8">
-                <form th:action="@{/logout}" method ="post"  class = "btn btn-danger float-right mb-3" ><input type="submit" value ="Sign Out" /></form>
-<!--                <a th:href = "@{/logout}" class = "btn btn-danger float-right mb-3" type="button" method ="post"> Logout</a>-->
+                <form th:action="@{/logout}" method="post" class="btn btn-danger float-right mb-3">
+                    <input type="submit" value="Sign Out" class="transparent-button">
+                </form>
             </div>
         </div>
     </header>
@@ -108,11 +114,11 @@
                     <a th:href = "@{/notes/edit/{id}(id=${note.id})}"
                        class = "btn btn-primary btn-custom">Edit</a>
 
-    <!--                <a th:href = "@{/notes/addCategory}"-->
-    <!--                   class = "btn btn-primary btn-custom">Add Category</a>-->
-
                     <a th:href = "@{/notes/{id}(id=${note.id})}"
                        class = "btn btn-danger">Delete</a>
+
+                    <a th:href="@{/notes/share/{id}(id=${note.id})}"
+                       class = "btn btn-danger">Share</a>
 
                 </td>
             </tr>

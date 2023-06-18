@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Note Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            width: 50%;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class="text-center">
+                Note Details
+            </h1>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Title</th>
+                        <td th:text="${note.title}"></td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td th:text="${note.description}"></td>
+                    </tr>
+                    <tr>
+                        <th>Link</th>
+                        <td th:text="${note.link}"></td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td th:text="${note.date}"></td>
+                    </tr>
+                    <tr>
+                        <th>Reminder Date</th>
+                        <td th:text="${note.remind_date}"></td>
+                    </tr>
+                    <tr>
+                        <th>Category</th>
+                        <td th:text="${note.category.name}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

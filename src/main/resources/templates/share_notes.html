@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit it!</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Share Note</h1>
+
+  <h2>Note Details:</h2>
+  <p>Note ID: <span th:text="${note.id}"></span></p>
+  <p>Note Title: <span th:text="${note.title}"></span></p>
+
+  <h2>Share Link:</h2>
+  <p>Copy and share the following link with others:</p>
+  <input type="text" th:value="'http://localhost:8080/notes/display/' + ${note.id}" readonly />
+</div>
+</body>
+</html>
