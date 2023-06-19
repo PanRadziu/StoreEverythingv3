@@ -17,6 +17,7 @@ import pl.storeeverything.store.service.CategoryService;
 import pl.storeeverything.store.service.NoteService;
 import pl.storeeverything.store.service.UserService;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -143,6 +144,31 @@ public class StoreController {
         String editUrl = "/notes/edit/" + id;
         model.addAttribute("editUrl", editUrl);
         return "share_notes";
+    }
+
+
+    @GetMapping("/notes/user_panel/{id}")
+    public String userpanel(@PathVariable("id") Long id, Model model){
+        model.addAttribute("note", noteService.findNoteById(id));
+        return "user_panel";
+    }
+
+//    @GetMapping("notes/shared/{id}")
+//    public String shareNoteToSomeone(@PathVariable Long id, Model model){
+//
+//    }
+    @PostMapping("/notes/{id}/share")
+    public String shareNoteWithUser(@PathVariable("id") Long Id, @RequestParam("username") String username) {
+        noteService.shareNoteWithUser(Id, username);
+        return "redirect:/notes";
+    }
+
+    @GetMapping("/note/share")
+    public String showSharedNotes(Model model, Principal principal) {
+        String username = principal.getName();
+        List<NotesDetails> sharedNotes = noteService.getSharedNotes(username);
+        model.addAttribute("notes", sharedNotes);
+        return "user_panel";
     }
 
     @GetMapping("/notes/display/{id}")

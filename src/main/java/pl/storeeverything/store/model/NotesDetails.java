@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -45,6 +46,14 @@ public class NotesDetails implements Serializable {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private UserDetails user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "note_user",
+            joinColumns = @JoinColumn(name = "note_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<UserDetails> sharedWith;
 
     public NotesDetails(Long id, String title, String description, Date date,String link, String remind_date, CategoryDetails category) {
         this.id = id;
