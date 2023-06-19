@@ -10,6 +10,16 @@
             background-color: #124d21;
             border: none;
         }
+        .btn-back-to-notes {
+            background-color: black;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .btn-back-to-notes-container {
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -22,6 +32,9 @@
             <div class = "class-body">
                 <form th:action="@{/notes}" th:object = "${note}" method="POST">
                     <div class = "form-group">
+                        <div class="btn-back-to-notes-container">
+                            <a href="/notes" class="btn btn-back-to-notes">Back to Notes</a>
+                        </div>
                         <label>Note Title</label>
                         <input
                                 type = "text"
