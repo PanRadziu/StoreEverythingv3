@@ -15,6 +15,8 @@ import pl.storeeverything.store.service.NoteService;
 import pl.storeeverything.store.service.UserService;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -166,14 +168,39 @@ public class StoreController {
     }
 
     @PostMapping("/notes/filter")
-    public String filterNotes(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                              @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
-                              Model model) {
-        List<NotesDetails> filteredNotes = noteService.getNotesByDateRange(startDate, endDate);
-
+    public String filter(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                         @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                         Model model) {
+        List<NotesDetails> filteredNotes = noteService.findNotesByDateBetween(startDate, endDate);
         model.addAttribute("notes", filteredNotes);
-        return "notes";
+        return "notes";  // replace with your notes list view page
     }
 
+    @GetMapping("/notes/login")
+    public String login(@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails loggedUser,Model model) {
+        String isloged = loggedUser.getUsername();
+        UserDetails userDet = userService.findByUsername(isloged);
+        Long id = userDet.getId();
+        List<NotesDetails> notesDetailsList = noteService.findAllByUserIDD(id);
+        LocalDate currentDate = LocalDate.now();
+        List<NotesDetails> notesToRemind = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (NotesDetails note : notesDetailsList) {
+            LocalDate remindDate = LocalDate.parse(note.getRemind_date(), formatter);
+            if (remindDate.equals(currentDate)) {
+                notesToRemind.add(note);
+            }
+        }
+
+        model.addAttribute("reminderNotes", notesToRemind);
+
+        if (notesToRemind.isEmpty()) {
+            return "redirect:/notes";
+        } else {
+            return "remind";
+        }
+    }
 }
+
+
 

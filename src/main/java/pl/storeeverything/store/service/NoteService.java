@@ -96,7 +96,7 @@ public class NoteService {
         return filteredNotes;
     }
 
-    public List<NotesDetails> getNotesByDateRange(Date startDate, Date endDate) {
+    public List<NotesDetails> findNotesByDateBetween(Date startDate, Date endDate) {
         return noteRepo.findByDateBetween(startDate, endDate);
     }
 

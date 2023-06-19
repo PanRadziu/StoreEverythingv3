@@ -59,6 +59,7 @@
                     <input type="date" id="startDate" name="startDate" class="form-control" required>
                     <label for="endDate">End Date:</label>
                     <input type="date" id="endDate" name="endDate" class="form-control" required>
+                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </form>
             </div>

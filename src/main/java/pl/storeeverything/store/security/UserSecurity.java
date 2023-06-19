@@ -2,21 +2,16 @@ package pl.storeeverything.store.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import pl.storeeverything.store.service.UserService;
@@ -35,49 +30,14 @@ public class UserSecurity{
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//
-//        @Bean
-//        public UserDetailsService userDetailsService() {
-//            UserDetails user =
-//                    User.withUsername("userr")
-//                            .password("userr")
-//                            .roles("USER")
-//                            .build();
-//
-//            UserDetails weak_user =
-//                    User.withUsername("usero")
-//                            .password("usero")
-//                            .roles("USER_WEAK")
-//                            .build();
-//
-//            UserDetails admin =
-//                    User.withUsername("admin")
-//                            .password("admin")
-//                            .roles("ADMIN")
-//                            .build();
-//
-//            System.out.println(user.getUsername()+"" + user.getPassword()+
-//                    "" +user.getAuthorities());
-//
-//            System.out.println(weak_user.getUsername()+"" + weak_user.getPassword()+
-//                    "" +weak_user.getAuthorities());
-//
-//            System.out.println(admin.getUsername()+"" + admin.getPassword()+
-//                    "" +admin.getAuthorities());
-//
-//            return new InMemoryUserDetailsManager(user, weak_user, admin);
-//        }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(HttpMethod.GET,"/notes/filter").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/notes/filter").permitAll()
                         .requestMatchers("/styles/**").permitAll()
                         .requestMatchers("/register").permitAll() // all users
                         .requestMatchers("/notes/display/{id}").permitAll()
