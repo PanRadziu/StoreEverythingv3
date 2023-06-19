@@ -1,14 +1,12 @@
 package pl.storeeverything.store.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -27,7 +25,6 @@ public class NotesDetails implements Serializable {
     @Column(name = "description", nullable = true)
     @NotNull(message = "is required")
     @Size(min=5, max=500,message = "description has to 5-500 letters long")
-//    @Size(min = 5, max = 500, message = "description has to 5-500 letters long")
 
     private String description;
 
@@ -41,8 +38,6 @@ public class NotesDetails implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryDetails category;
-//    @Column(name = "user", nullable = true, insertable=false, updatable=false)
-//    private UserDetails user;
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private UserDetails user;
@@ -106,7 +101,6 @@ public class NotesDetails implements Serializable {
 
     public void setDate(Date date) {
         this.date=date;
-//        dateFormat.format(date);
     }
 
     public String getRemind_date() {

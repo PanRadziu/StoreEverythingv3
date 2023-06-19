@@ -1,6 +1,5 @@
 package pl.storeeverything.store.service;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.storeeverything.store.model.CategoryDetails;
@@ -46,7 +45,7 @@ public class NoteService {
         noteRepo.deleteById(id);
     }
 
-    //alfabetycznie po tytulach
+
     public List<NotesDetails> sortNotesByTitleAlphabetically(List<NotesDetails> notes){
         List<NotesDetails> sortedNotes = new ArrayList<>(notes);
         sortedNotes.sort(Comparator.comparing(NotesDetails::getTitle));
@@ -70,20 +69,17 @@ public class NoteService {
     }
 
     public List<NotesDetails> showNotesOfMostPopularCategory(List<NotesDetails> notes) {
-        // Count the occurrences of each category
         Map<CategoryDetails, Integer> categoryCount = new HashMap<>();
         for (NotesDetails note : notes) {
             CategoryDetails category = note.getCategory();
             categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
         }
 
-        // Find the most popular category
         CategoryDetails mostPopularCategory = Collections.max(
                 categoryCount.entrySet(),
                 Map.Entry.comparingByValue()
         ).getKey();
 
-        // Filter the notes to include only those belonging to the most popular category
         List<NotesDetails> filteredNotes = new ArrayList<>();
         for (NotesDetails note : notes) {
             if (note.getCategory().equals(mostPopularCategory)) {

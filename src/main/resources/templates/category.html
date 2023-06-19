@@ -21,17 +21,15 @@
         $(document).ready(function() {
             $("#categoryForm").submit(function(e) {
                 console.log("JavaScript code is executed.");
-                e.preventDefault(); // Prevent form submission
+                e.preventDefault();
                 var categoryName = $("#categoryName").val();
                 $.ajax({
                     type: "GET",
                     url: "/api/noun-checker/" + categoryName,
                     success: function() {
-                        // Word is a noun, submit the form
                         $("#categoryForm").off("submit").submit();
                     },
                     error: function(xhr) {
-                        // Word is not a noun, display error message
                         $(".error-message").text(xhr.responseText);
                     }
                 });

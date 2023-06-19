@@ -62,7 +62,6 @@ public class UserSecurity{
     @Bean
     public AuthenticationManager authenticationProvider(UserDetailsService userDetailsService){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         List<AuthenticationProvider> providerManager = List.of(daoAuthenticationProvider);
 

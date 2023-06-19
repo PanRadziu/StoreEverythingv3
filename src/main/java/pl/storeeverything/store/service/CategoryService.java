@@ -33,14 +33,5 @@ public class CategoryService {
     public Optional<CategoryDetails> findCategoryName(String name){
         return categoryRepo.findByName(name);
     }
-//    public List<CategoryDetails> sortNotesByCategoryAlphabetically(List<CategoryDetails> category){
-//        List<CategoryDetails> sortedNotes = new ArrayList<>(category);
-//        sortedNotes.sort(Comparator.comparing(CategoryDetails::getName));
-//        return sortedNotes;
-//    }
-//    public List<CategoryDetails> sortNotesByCategoryNonAlphabetically(List<CategoryDetails> category){
-//        List<CategoryDetails> sortedNotes = new ArrayList<>(category);
-//        sortedNotes.sort(Comparator.comparing(CategoryDetails::getName, Comparator.reverseOrder()));
-//        return sortedNotes;
-//    }
+
 }

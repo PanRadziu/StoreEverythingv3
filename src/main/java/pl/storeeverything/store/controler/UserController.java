@@ -29,7 +29,6 @@ public class UserController {
 
     @GetMapping("/")
     public String home(Model model) {
-        // You can add attributes to the model here if needed
         return "onboarding_screen";
     }
 

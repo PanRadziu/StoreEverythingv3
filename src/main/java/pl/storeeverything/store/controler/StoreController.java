@@ -47,7 +47,6 @@ public class StoreController {
         UserDetails userDet = userService.findByUsername(isLogged);
         Long id = userDet.getId();
 
-        // Retrieve the sorting option from the cookie
         Cookie[] cookies = request.getCookies();
         String sortingOption = null;
         if (cookies != null) {
@@ -151,10 +150,6 @@ public class StoreController {
         return "user_panel";
     }
 
-//    @GetMapping("notes/shared/{id}")
-//    public String shareNoteToSomeone(@PathVariable Long id, Model model){
-//
-//    }
     @PostMapping("/notes/{id}/share")
     public String shareNoteWithUser(@PathVariable("id") Long Id, @RequestParam("username") String username) {
         noteService.shareNoteWithUser(Id, username);
@@ -224,7 +219,6 @@ public class StoreController {
                 sortedNotes = allNotes;
             }
 
-            // Save the sorting option in a cookie
             Cookie sortingCookie = new Cookie("sortingOption", sortingOption);
             sortingCookie.setMaxAge(30 * 24 * 60 * 60); // Set the cookie expiration time (30 days in this example)
             response.addCookie(sortingCookie);
