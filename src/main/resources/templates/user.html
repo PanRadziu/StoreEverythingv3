@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Users</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .btn-custom {
+            font-size: 16px;
+            background-color: black;
+            border: none;
+        }
+        .btn-custom2 {
+            font-size: 16px;
+            background-color: #124d21;
+            border: none;
+        }
+        .transparent-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class = "container">
+    <p>&nbsp;&nbsp;</p>
+    <header>
+        <div class = "row">
+            <h1> List of Users</h1>
+        </div>
+    </header>
+
+    <p>&nbsp;&nbsp;</p>
+    <main>
+        <table class="table table-sm ">
+            <thead class = "table-dark">
+            <tr>
+                <th>
+                    Firstname
+                </th>
+                <th>
+                    Lastname
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Password
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+
+            <tr th:each = "user: ${users}">
+                <td th:text = "${user.firstname}"></td>
+                <td th:text = "${user.lastname}"></td>
+                <td th:text = "${user.username}"></td>
+                <td th:text = "${user.password}"></td>
+                <td th:text = "${user.age}"></td>
+
+                <td>
+                    <a th:href = "@{/register/edit/{id}(id=${user.id})}"
+                       class = "btn btn-primary btn-custom">Edit</a>
+
+<!--                    <a th:href = "@{/notes/{id}(id=${note.id})}"-->
+<!--                       class = "btn btn-danger">Delete</a>-->
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+
+</div>
+
+</body>
+</html>
