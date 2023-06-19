@@ -2,9 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Users</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .btn-custom {
+            font-size: 16px;
+            background-color: black;
+            border: none;
+        }
+        .btn-custom2 {
+            font-size: 16px;
+            background-color: #124d21;
+            border: none;
+        }
+        .transparent-button {
+            background-color: transparent;
+            border: none;
+            color: white;
+        }
+        .btn-back-to-notes {
+            background-color: black;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .btn-back-to-notes-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
+
+<div class = "container">
+    <p>&nbsp;&nbsp;</p>
+    <header>
+        <div class="btn-back-to-notes-container">
+            <a href="/notes" class="btn btn-back-to-notes">Back to Notes</a>
+        </div>
+        <div class = "row">
+            <h1> List of Users</h1>
+        </div>
+    </header>
+
+    <p>&nbsp;&nbsp;</p>
+    <main>
+        <table class="table table-sm ">
+            <thead class = "table-dark">
+            <tr>
+                <th>
+                    Note_Title
+                </th>
+                <th>
+                    Link
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    From
+                </th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+
+            <tr th:each = "note: ${notes}">
+                <td th:text = "${note.title}"></td>
+                <td th:text = "${note.link}"></td>
+                <td th:text = "${note.description}"></td>
+                <td th:text = "${note.category.name}"></td>
+                <td th:text="${note.user.getUsername}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+
+</div>
 
 </body>
 </html>

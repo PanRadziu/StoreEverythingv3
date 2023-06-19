@@ -4,20 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.storeeverything.store.model.CategoryDetails;
 import pl.storeeverything.store.model.NotesDetails;
+import pl.storeeverything.store.model.UserDetails;
 import pl.storeeverything.store.repo.NoteRepo;
+import pl.storeeverything.store.repo.UserRepo;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
 public class NoteService {
     @Autowired
     private final NoteRepo noteRepo;
+    @Autowired
+    private final UserRepo userRepo;
 
-    public NoteService(NoteRepo noteRepo) {
+    public NoteService(NoteRepo noteRepo, UserRepo userRepo) {
         this.noteRepo = noteRepo;
+        this.userRepo = userRepo;
     }
 
     public List<NotesDetails> getAllNotes() {
@@ -99,7 +101,19 @@ public class NoteService {
     public List<NotesDetails> findNotesByDateBetween(Date startDate, Date endDate) {
         return noteRepo.findByDateBetween(startDate, endDate);
     }
+    public void shareNoteWithUser(Long Id, String username) {
+        NotesDetails notesDetails = noteRepo.findAllById(Id);
+        UserDetails user = userRepo.findByUsername(username);
+            if (user != null) {
+                notesDetails.getSharedWith().add(user);
+                noteRepo.save(notesDetails);
+            }
+        }
 
+    public List<NotesDetails> getSharedNotes(String username) {
+        UserDetails user = userRepo.findByUsername(username);
+        return noteRepo.findBySharedWith(user);
+    }
     public NoteRepo getNoteRepo() {
         return noteRepo;
     }
