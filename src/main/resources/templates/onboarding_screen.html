@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Welcome</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <style>
+    .jumbotron {
+      background-color: transparent;
+      text-align: center;
+      margin-bottom: 0;
+    }
+
+    .col-sm-6 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome to StoreEverything!!!</h1>
+    <h2>Add notes and share them with other users! :)</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>Login</h2>
+      <p>Already have an account?</p>
+      <a th:href="@{/login}" class="btn btn-primary" role="button">Login</a>
+    </div>
+
+    <div class="col-sm-6">
+      <h2>Register</h2>
+      <p>Don't have an account yet?</p>
+      <a th:href="@{/register}" class="btn btn-primary" role="button">Register</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

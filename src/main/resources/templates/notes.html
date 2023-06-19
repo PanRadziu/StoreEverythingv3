@@ -35,10 +35,6 @@
                 </form>
             </div>
         </div>
-<!--        <div th:each = "user: ${users}" class = "col-lg-8">-->
-<!--            <a th:href = "@{/register/edit/{id}(id=${user.id})}"-->
-<!--               class = "btn btn-primary btn-custom">Edit</a>-->
-<!--        </div>-->
     </header>
 
     <p>&nbsp;&nbsp;</p>
@@ -77,9 +73,6 @@
         <div class="text-right">
             <a sec:authorize="hasAnyAuthority('ADMIN', 'USER')" th:href="@{/notes/category}" class="btn btn-primary btn-sm mb-3 btn-custom2">Add Category</a>
         </div>
-<!--        <div th:each = "note: ${notes}" class  = "text-right">-->
-<!--            <a th:href="@{/register/edit/{id}(id=${users.id})}" class="btn btn-primary btn-sm mb-3 btn-custom2">EditYpurselfawfawf</a>-->
-<!--        </div>-->
         <table class="table table-sm ">
             <thead class = "table-dark">
             <tr>

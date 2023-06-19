@@ -27,12 +27,11 @@ public class UserController {
         return "login";
     }
 
-//    @GetMapping("/register")
-//    public String register(@ModelAttribute UserDetails userDetails){
-//        System.out.println("XD");
-//        System.out.println("KEKW" + userDetails);
-//        return "register";
-//    }
+    @GetMapping("/")
+    public String home(Model model) {
+        // You can add attributes to the model here if needed
+        return "onboarding_screen";
+    }
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -51,10 +50,10 @@ public class UserController {
         public String register(@Valid @ModelAttribute("user") UserDetails userDetails, BindingResult result){
         if (result.hasErrors()) {
             return "register";
+        }else {
+            userService.saveUser(userDetails);
+            return "redirect:/";
         }
-        userService.saveUser(userDetails);
-
-        return "redirect:/notes";
     }
 
     @GetMapping("/register/edit/{id}")

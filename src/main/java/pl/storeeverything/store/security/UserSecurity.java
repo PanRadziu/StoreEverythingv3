@@ -38,6 +38,7 @@ public class UserSecurity{
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.GET,"/notes/filter").permitAll()
                         .requestMatchers(HttpMethod.POST,"/notes/filter").permitAll()
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/styles/**").permitAll()
                         .requestMatchers("/register").permitAll() // all users
                         .requestMatchers("/notes/display/{id}").permitAll()
@@ -47,6 +48,7 @@ public class UserSecurity{
                 .formLogin((form) -> form //login page
                         .loginPage("/login")
                         .successHandler(authenticationSuccessHandler())
+                        .defaultSuccessUrl("/notes", true)
                         .permitAll()
                 )
                 .logout((logout) -> logout.logoutSuccessUrl("/").permitAll());
