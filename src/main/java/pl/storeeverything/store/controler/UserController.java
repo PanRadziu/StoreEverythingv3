@@ -75,7 +75,7 @@ public class UserController {
         existUser.setAge(userDetails.getAge());
         existUser.setId_roles(userDetails.getId_roles());
         userService.saveUser(existUser);
-        return "redirect:/notes";
+        return "redirect:/register/list";
     }
 
 }

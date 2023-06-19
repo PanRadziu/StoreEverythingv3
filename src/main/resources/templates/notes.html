@@ -72,6 +72,9 @@
             <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/register/list}" class="btn btn-primary btn-sm mb-3 btn-custom2">ADMIN PANEL</a>
         </div>
         <div class="text-right">
+            <a sec:authorize="hasAnyAuthority('ADMIN', 'USER', 'USER_WEAK')" th:href="@{/note/share}" class="btn btn-primary btn-sm mb-3 btn-custom2">USER PANEL</a>
+        </div>
+        <div class="text-right">
             <a sec:authorize="hasAnyAuthority('ADMIN', 'USER')" th:href="@{/notes/new}" class="btn btn-primary btn-sm mb-3 btn-custom2">Add some notes</a>
         </div>
         <div class="text-right">

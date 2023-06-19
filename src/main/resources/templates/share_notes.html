@@ -39,6 +39,11 @@
   <p>Note Title: <span th:text="${note.title}"></span></p>
   <p>Note Creator: <span th:text="${note.user.getUsername}"></span></p>
 
+  <form th:action="@{/notes/{id}/share(id=${note.id})}" method="post">
+    <input type="text" name="username" placeholder="Nazwa użytkownika">
+    <button type="submit">Udostępnij</button>
+  </form>
+
   <h2>Share Link:</h2>
   <p>Copy and share the following link with others:</p>
   <input type="text" th:value="'http://localhost:8080/notes/display/' + ${note.id}" readonly />
