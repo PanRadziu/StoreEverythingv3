@@ -11,27 +11,41 @@
     <form th:action="@{/register}" th:object="${user}" method="post">
         <div class="form-group">
             <label for="firstname">Name:</label>
-            <input type="text" class="form-control" id="firstname" name="firstname" th:field = "*{firstname}" pattern="[A-Za-z]{3,20}" required>
+            <input type="text" class="form-control" id="firstname" name="firstname" th:field="*{firstname}" pattern="[A-Za-z]{3,20}" required>
         </div>
         <div class="form-group">
             <label for="lastname">Lastname:</label>
-            <input type="text" class="form-control" id="lastname" name="lastname" th:field = "*{lastname}" pattern="[A-Za-z]{3,50}" required>
+            <input type="text" class="form-control" id="lastname" name="lastname" th:field="*{lastname}" pattern="[A-Za-z]{3,50}" required>
         </div>
         <div class="form-group">
             <label for="userName">Login:</label>
-            <input type="text" class="form-control" id="userName" name="username" th:field = "*{username}" pattern="[a-z]{3,20}" required>
+            <input type="text" class="form-control" id="userName" name="username" th:field="*{username}" pattern="[a-z]{3,20}" required>
         </div>
         <div class="form-group">
+            <input type="checkbox" id="showPasswordCheckbox">
             <label for="password">Password:</label>
-            <input type="text" class="form-control" id="password" name="password" th:field = "*{password}" pattern="{5}" required>
+            <input type="password" class="form-control" id="password" name="password" th:field="*{password}" pattern="{5}" required>
         </div>
         <div class="form-group">
             <label for="age">Age:</label>
-            <input type="text" class="form-control" id="age" name="age" th:field = "*{age}" required>
+            <input type="text" class="form-control" id="age" name="age" th:field="*{age}" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Zarejestruj</button>
     </form>
 </div>
+
+<script>
+    const showPasswordCheckbox = document.getElementById('showPasswordCheckbox');
+    const passwordInput = document.getElementById('password');
+
+    showPasswordCheckbox.addEventListener('change', function() {
+        if (showPasswordCheckbox.checked) {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    });
+</script>
 </body>
 </html>

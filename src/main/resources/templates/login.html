@@ -18,13 +18,17 @@
         </div>
         <div class="form-group">
             <label for="Password">Password:</label>
-            <input type="text" class="form-control" id="Password" name="password" pattern="[a-z]{3,20}" required>
+            <input type="password" class="form-control" id="Password" name="password" pattern="[a-z]{3,20}" required>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" id="showPasswordCheckbox">
+            <label for="showPasswordCheckbox">Show password</label>
         </div>
         <button type="submit" class="btn btn-primary">Log in</button>
     </form>
     <form>
         <div sec:authorize="!isAuthenticated()" class="form-group">
-            <a th:href="@{/register}" class="text-black-50 fw-bold">Dont have acc? click below :D  :</a>
+            <a th:href="@{/register}" class="text-black-50 fw-bold">Don't have an account? Click below :D</a>
         </div>
     </form>
 
@@ -32,5 +36,19 @@
 <div sec:authorize="isAuthenticated()">
     You have been logged in already!
 </div>
+
+<script>
+    const showPasswordCheckbox = document.getElementById('showPasswordCheckbox');
+    const passwordInput = document.getElementById('Password');
+
+    showPasswordCheckbox.addEventListener('change', function() {
+        if (showPasswordCheckbox.checked) {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    });
+</script>
+
 </body>
 </html>

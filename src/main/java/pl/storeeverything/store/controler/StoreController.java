@@ -1,5 +1,8 @@
 package pl.storeeverything.store.controler;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 public class StoreController {
@@ -38,16 +40,54 @@ public class StoreController {
 
     }
 
-
     @GetMapping("/notes")
-    public String listNotes(@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails loggedUser, Model model){
-        String isloged = loggedUser.getUsername();
-        UserDetails userDet = userService.findByUsername(isloged);
+    public String listNotes(@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails loggedUser, Model model, HttpServletRequest request, HttpServletResponse response) {
+        String isLogged = loggedUser.getUsername();
+        UserDetails userDet = userService.findByUsername(isLogged);
         Long id = userDet.getId();
-        List<NotesDetails> notesDetailsList = noteService.findAllByUserIDD(id);
+
+        // Retrieve the sorting option from the cookie
+        Cookie[] cookies = request.getCookies();
+        String sortingOption = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("sortingOption")) {
+                    sortingOption = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        List<NotesDetails> notesDetailsList;
+        if (sortingOption != null && !sortingOption.isEmpty()) {
+            // Apply sorting based on the retrieved option
+            if (sortingOption.equals("titleAlph")) {
+                notesDetailsList = noteService.sortNotesByTitleAlphabetically(noteService.findAllByUserIDD(id));
+            } else if (sortingOption.equals("titleNonAlph")) {
+                notesDetailsList = noteService.sortNotesByTitleNonAlphabetically(noteService.findAllByUserIDD(id));
+            } else if (sortingOption.equals("categoryAlph")) {
+                notesDetailsList = noteService.sortNotesByCategoryAlphabetically(noteService.findAllByUserIDD(id));
+            } else if (sortingOption.equals("categoryNonAlph")) {
+                notesDetailsList = noteService.sortNotesByCategoryNonAlphabetically(noteService.findAllByUserIDD(id));
+            } else if (sortingOption.equals("countCategory")) {
+                notesDetailsList = noteService.showNotesOfMostPopularCategory(noteService.findAllByUserIDD(id));
+            } else {
+                notesDetailsList = noteService.findAllByUserIDD(id);
+            }
+        } else {
+            notesDetailsList = noteService.findAllByUserIDD(id);
+        }
+
         model.addAttribute("notes", notesDetailsList);
+
+        // Save the sorting option in a cookie
+        Cookie sortingCookie = new Cookie("sortingOption", sortingOption);
+        sortingCookie.setMaxAge(30 * 24 * 60 * 60); // Set the cookie expiration time (30 days in this example)
+        response.addCookie(sortingCookie);
+
         return "notes";
     }
+
 
     @GetMapping("/notes/new")
     public String createNotes(Model model) {
@@ -138,7 +178,7 @@ public class StoreController {
     }
 
     @GetMapping("/notes/sort")
-    public String getSortedNotes(@RequestParam("sortingOption") String sortingOption, Model model) {
+    public String getSortedNotes(@RequestParam("sortingOption") String sortingOption, Model model, HttpServletResponse response) {
         List<NotesDetails> sortedNotes = null;
 
         List<NotesDetails> allNotes = noteService.getAllNotes();
@@ -156,7 +196,12 @@ public class StoreController {
             } else {
                 sortedNotes = allNotes;
             }
-        }else {
+
+            // Save the sorting option in a cookie
+            Cookie sortingCookie = new Cookie("sortingOption", sortingOption);
+            sortingCookie.setMaxAge(30 * 24 * 60 * 60); // Set the cookie expiration time (30 days in this example)
+            response.addCookie(sortingCookie);
+        } else {
             sortedNotes = allNotes;
         }
 

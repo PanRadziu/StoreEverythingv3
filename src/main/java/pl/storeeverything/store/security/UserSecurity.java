@@ -48,7 +48,6 @@ public class UserSecurity{
                 .formLogin((form) -> form //login page
                         .loginPage("/login")
                         .successHandler(authenticationSuccessHandler())
-                        .defaultSuccessUrl("/notes", true)
                         .permitAll()
                 )
                 .logout((logout) -> logout.logoutSuccessUrl("/").permitAll());
