@@ -80,7 +80,7 @@ public class StoreController {
         model.addAttribute("notes", notesDetailsList);
 
         Cookie sortingCookie = new Cookie("sortingOption", sortingOption);
-        sortingCookie.setMaxAge(30 * 24 * 60 * 60);
+        sortingCookie.setMaxAge(86400);
         response.addCookie(sortingCookie);
 
         return "notes";
@@ -220,7 +220,7 @@ public class StoreController {
             }
 
             Cookie sortingCookie = new Cookie("sortingOption", sortingOption);
-            sortingCookie.setMaxAge(30 * 24 * 60 * 60); // Set the cookie expiration time (30 days in this example)
+            sortingCookie.setMaxAge(86400);
             response.addCookie(sortingCookie);
         } else {
             sortedNotes = allNotes;
