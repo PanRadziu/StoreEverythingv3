@@ -49,8 +49,6 @@ public class StoreController {
         return "notes";
     }
 
-
-
     @GetMapping("/notes/new")
     public String createNotes(Model model) {
         model.addAttribute("note", new NotesDetails());

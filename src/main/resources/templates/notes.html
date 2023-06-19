@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Notes/List/ContactList and more!</title>
@@ -35,13 +35,17 @@
                 </form>
             </div>
         </div>
+<!--        <div th:each = "user: ${users}" class = "col-lg-8">-->
+<!--            <a th:href = "@{/register/edit/{id}(id=${user.id})}"-->
+<!--               class = "btn btn-primary btn-custom">Edit</a>-->
+<!--        </div>-->
     </header>
 
     <p>&nbsp;&nbsp;</p>
     <main>
         <div class="row">
             <div class="col-lg-3">
-                <form action="/notes/sort" method="get" class="d-flex justify-content-between">
+                <form sec:authorize="hasAnyAuthority('ADMIN', 'USER')" action="/notes/sort" method="get" class="d-flex justify-content-between">
                     <select id="sortingOptions" name="sortingOption" class="form-control mr-2">
                         <option value="">Sort by:</option>
                         <option value="titleAlph">Sort by Title Alphabetically</option>
@@ -54,7 +58,7 @@
                 </form>
             </div>
             <div class="col-lg-3">
-                <form action="/notes/filter" method="post" class="d-flex justify-content-between">
+                <form sec:authorize="hasAnyAuthority('ADMIN', 'USER')" action="/notes/filter" method="post" class="d-flex justify-content-between">
                     <label for="startDate">Start Date:</label>
                     <input type="date" id="startDate" name="startDate" class="form-control" required>
                     <label for="endDate">End Date:</label>
@@ -64,14 +68,18 @@
                 </form>
             </div>
         </div>
-
         <div class="text-right">
-            <a th:href="@{/notes/new}" class="btn btn-primary btn-sm mb-3 btn-custom2">Add some notes</a>
+            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/register/list}" class="btn btn-primary btn-sm mb-3 btn-custom2">ADMIN PANEL</a>
         </div>
         <div class="text-right">
-            <a th:href="@{/notes/category}" class="btn btn-primary btn-sm mb-3 btn-custom2">Add Category</a>
+            <a sec:authorize="hasAnyAuthority('ADMIN', 'USER')" th:href="@{/notes/new}" class="btn btn-primary btn-sm mb-3 btn-custom2">Add some notes</a>
         </div>
-
+        <div class="text-right">
+            <a sec:authorize="hasAnyAuthority('ADMIN', 'USER')" th:href="@{/notes/category}" class="btn btn-primary btn-sm mb-3 btn-custom2">Add Category</a>
+        </div>
+<!--        <div th:each = "note: ${notes}" class  = "text-right">-->
+<!--            <a th:href="@{/register/edit/{id}(id=${users.id})}" class="btn btn-primary btn-sm mb-3 btn-custom2">EditYpurselfawfawf</a>-->
+<!--        </div>-->
         <table class="table table-sm ">
             <thead class = "table-dark">
             <tr>
