@@ -1,5 +1,6 @@
 package pl.storeeverything.store.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.storeeverything.store.model.CategoryDetails;
@@ -56,11 +57,6 @@ public class NoteService {
         sortedNotes.sort(Comparator.comparing(NotesDetails::getTitle, Comparator.reverseOrder()));
         return sortedNotes;
     }
-//    public List<NotesDetails> sortNotesByCategoryAlphabetically(List<NotesDetails> notes){
-//        List<NotesDetails> sortedNotes = new ArrayList<>(notes);
-//        sortedNotes.sort(Comparator.comparing(NotesDetails::getTitle, Comparator.reverseOrder()));
-//        return sortedNotes;
-//    }
 
     public List<NotesDetails> sortNotesByCategoryAlphabetically(List<NotesDetails> notes) {
         List<NotesDetails> sortedNotes = new ArrayList<>(notes);

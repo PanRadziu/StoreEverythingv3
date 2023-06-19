@@ -61,7 +61,6 @@ public class StoreController {
 
         List<NotesDetails> notesDetailsList;
         if (sortingOption != null && !sortingOption.isEmpty()) {
-            // Apply sorting based on the retrieved option
             if (sortingOption.equals("titleAlph")) {
                 notesDetailsList = noteService.sortNotesByTitleAlphabetically(noteService.findAllByUserIDD(id));
             } else if (sortingOption.equals("titleNonAlph")) {
@@ -81,9 +80,8 @@ public class StoreController {
 
         model.addAttribute("notes", notesDetailsList);
 
-        // Save the sorting option in a cookie
         Cookie sortingCookie = new Cookie("sortingOption", sortingOption);
-        sortingCookie.setMaxAge(30 * 24 * 60 * 60); // Set the cookie expiration time (30 days in this example)
+        sortingCookie.setMaxAge(30 * 24 * 60 * 60);
         response.addCookie(sortingCookie);
 
         return "notes";
@@ -204,10 +202,13 @@ public class StoreController {
     }
 
     @GetMapping("/notes/sort")
-    public String getSortedNotes(@RequestParam("sortingOption") String sortingOption, Model model, HttpServletResponse response) {
+    public String getSortedNotes(@RequestParam("sortingOption") String sortingOption, Model model, HttpServletResponse response,@AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails loggedUser) {
+        String isLogged = loggedUser.getUsername();
+        UserDetails userDet = userService.findByUsername(isLogged);
+        Long id = userDet.getId();
         List<NotesDetails> sortedNotes = null;
 
-        List<NotesDetails> allNotes = noteService.getAllNotes();
+        List<NotesDetails> allNotes = noteService.findAllByUserIDD(id);
         if (sortingOption != null && !sortingOption.isEmpty()) {
             if (sortingOption.equals("titleAlph")) {
                 sortedNotes = noteService.sortNotesByTitleAlphabetically(allNotes);
